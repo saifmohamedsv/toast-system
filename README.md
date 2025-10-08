@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Toast System
 
-## Getting Started
+Lightweight, framework-friendly toast notifications with positions, variants, duration, and an accessible UI. Includes a simple API and an embeddable `ToastContainer` for rendering.
 
-First, run the development server:
+- Live Demo: [toast-system.vercel.app](https://toast-system.vercel.app/)
+
+### Features
+- Success, Error, Warning, Info variants
+- Six positions: top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
+- Auto-dismiss with progress bar and smooth transitions
+- Programmatic API: `toast.success`, `toast.error`, `toast.warning`, `toast.info`
+- Accessible markup with keyboard and screen-reader friendly controls
+- Ship-ready styling with Tailwind CSS and SVG icons via SVGR
+
+### Quickstart
+
+1) Install dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# using yarn
+yarn
+
+# or npm
+npm install
+
+# or pnpm
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) Run the dev server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+# npm run dev / pnpm dev also work
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open http://localhost:3000 to view the demo page.
 
-## Learn More
+### Usage
 
-To learn more about Next.js, take a look at the following resources:
+Add the `ToastContainer` once near the root of your app (e.g., in a layout or top-level page), then trigger toasts via the `toast` API from anywhere in your client components.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```tsx
+import { toast, ToastContainer } from "@/components/toast";
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+// Render once in your app root
+function AppRoot() {
+  return (
+    <>
+      {/* your routes/components */}
+      <ToastContainer />
+    </>
+  );
+}
 
-## Deploy on Vercel
+// Trigger a toast from any client component
+toast.success("Success", "This is a success message", {
+  position: "top-right",
+  variant: "success",
+  duration: 3000,
+});
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For an interactive example and controls, see the live demo: [toast-system.vercel.app](https://toast-system.vercel.app/).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### API
+
+Exports from `@/components/toast`:
+
+- `toast.success(title: string, description?: string, options?: ToastOptions)`
+- `toast.error(title: string, description?: string, options?: ToastOptions)`
+- `toast.warning(title: string, description?: string, options?: ToastOptions)`
+- `toast.info(title: string, description?: string, options?: ToastOptions)`
+- `ToastContainer`: React component that renders toasts grouped by position.
+
+Types:
+
+```ts
+type ToastVariant = "success" | "error" | "warning" | "info";
+type ToastPosition =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
+
+interface ToastOptions {
+  variant?: ToastVariant;    // default: "success"
+  position?: ToastPosition;  // default: "top-right"
+  duration?: number;         // default: 3000 (ms)
+}
+```
+
+Notes:
+- The `ToastContainer` must be mounted somewhere in your client tree for toasts to render.
+- Clicking a toast or its close button dismisses it early.
+- Duration is respected even across quick page updates thanks to stored `createdAt` timestamps.
+
+### Configuration
+
+SVG icons are imported as React components using SVGR. This project includes the necessary config in `next.config.ts`:
+
+```ts
+// next.config.ts
+webpack: (config) => {
+  config.module.rules.push({
+    test: /\.svg$/,
+    use: ["@svgr/webpack"],
+  });
+  return config;
+}
+```
+
+### Project Structure
+
+```
+assets/
+  icons/
+    error-icon.svg
+    info-icon.svg
+    success-icon.svg
+    warning-icon.svg
+components/
+  toast.tsx         # toast API, ToastContainer, UI
+app/
+  page.tsx          # interactive demo page
+```
+
+### Scripts
+
+```bash
+yarn dev     # start dev server
+yarn build   # build for production
+yarn start   # start production server
+yarn lint    # run linter
+```
+
+### Acknowledgements
+
+- Built with Next.js and Tailwind CSS
+- Demo and documentation available at [toast-system.vercel.app](https://toast-system.vercel.app/)
