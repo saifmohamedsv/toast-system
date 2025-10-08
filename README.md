@@ -136,3 +136,7 @@ yarn lint    # run linter
 
 - Built with Next.js and Tailwind CSS
 - Demo and documentation available at [toast-system.vercel.app](https://toast-system.vercel.app/)
+
+### Author
+
+- **Saif Mohamed** — [LinkedIn](https://linkedin.com/in/saifmohamedsv)

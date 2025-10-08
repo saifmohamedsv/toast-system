@@ -2,6 +2,11 @@
   "name": "toast-system",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Saif Mohamed",
+    "url": "https://linkedin.com/in/saifmohamedsv"
+  },
+  "homepage": "https://toast-system.vercel.app/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
