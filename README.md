@@ -5,6 +5,7 @@ Lightweight, framework-friendly toast notifications with positions, variants, du
 - Live Demo: [toast-system.vercel.app](https://toast-system.vercel.app/)
 
 ### Features
+
 - Success, Error, Warning, Info variants
 - Six positions: top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
 - Auto-dismiss with progress bar and smooth transitions
@@ -14,7 +15,7 @@ Lightweight, framework-friendly toast notifications with positions, variants, du
 
 ### Quickstart
 
-1) Install dependencies
+1. Install dependencies
 
 ```bash
 # using yarn
@@ -27,7 +28,7 @@ npm install
 pnpm install
 ```
 
-2) Run the dev server
+2. Run the dev server
 
 ```bash
 yarn dev
@@ -77,22 +78,17 @@ Types:
 
 ```ts
 type ToastVariant = "success" | "error" | "warning" | "info";
-type ToastPosition =
-  | "top-left"
-  | "top-center"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-center"
-  | "bottom-right";
+type ToastPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
 
 interface ToastOptions {
-  variant?: ToastVariant;    // default: "success"
-  position?: ToastPosition;  // default: "top-right"
-  duration?: number;         // default: 3000 (ms)
+  variant?: ToastVariant; // default: "success"
+  position?: ToastPosition; // default: "top-right"
+  duration?: number; // default: 3000 (ms)
 }
 ```
 
 Notes:
+
 - The `ToastContainer` must be mounted somewhere in your client tree for toasts to render.
 - Clicking a toast or its close button dismisses it early.
 - Duration is respected even across quick page updates thanks to stored `createdAt` timestamps.
@@ -109,7 +105,7 @@ webpack: (config) => {
     use: ["@svgr/webpack"],
   });
   return config;
-}
+};
 ```
 
 ### Project Structure
