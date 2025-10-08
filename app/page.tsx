@@ -1,103 +1,125 @@
-import Image from "next/image";
+"use client";
+import {
+  toast,
+  ToastContainer,
+  ToastPosition,
+  ToastVariant,
+} from "@/components/toast";
+import { useState } from "react";
+
+const variants: ToastVariant[] = ["success", "error", "warning", "info"];
+const variantIcons: Record<ToastVariant, string> = {
+  success: "✅",
+  error: "❌",
+  warning: "⚠️",
+  info: "ℹ️",
+};
+const positions: ToastPosition[] = [
+  "top-left",
+  "top-center",
+  "top-right",
+  "bottom-left",
+  "bottom-center",
+  "bottom-right",
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedVariant, setSelectedVariant] =
+    useState<ToastVariant>("success");
+  const [selectedPosition, setSelectedPosition] =
+    useState<ToastPosition>("top-right");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleShowToast = () => {
+    toast[selectedVariant](
+      `${selectedVariant} at ${selectedPosition}`,
+      `This is a ${selectedVariant} message`,
+      { position: selectedPosition }
+    );
+  };
+
+  return (
+    <div className="min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)] flex flex-col items-center gap-12 bg-white text-gray-900">
+      <header className="max-w-2xl text-center">
+        <h1 className="text-3xl font-bold mb-2">Toast System Documentation</h1>
+        <p className="text-gray-700">
+          Select a variant and position, then click <b>Show Toast</b> to see it
+          in action. See usage example below.
+        </p>
+      </header>
+
+      <section className="w-full max-w-xl flex flex-col gap-8 items-center">
+        <div className="w-full flex flex-col gap-8 justify-center">
+          {/* Variant Selection */}
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Variant</h2>
+            <div className="flex gap-2 flex-wrap justify-center">
+              {variants.map((variant) => (
+                <button
+                  key={variant}
+                  type="button"
+                  onClick={() => setSelectedVariant(variant)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition font-medium
+                    ${
+                      selectedVariant === variant
+                        ? "bg-blue-600 text-white border-blue-600 shadow"
+                        : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-blue-50"
+                    }
+                  `}
+                  aria-pressed={selectedVariant === variant}
+                >
+                  <span>{variantIcons[variant]}</span>
+                  <span className="capitalize">{variant}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* Position Selection */}
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Position</h2>
+            <div className="grid grid-cols-3 gap-2">
+              {positions.map((position) => (
+                <button
+                  key={position}
+                  type="button"
+                  onClick={() => setSelectedPosition(position)}
+                  className={`px-3 py-2 rounded-lg border text-sm transition font-medium
+                    ${
+                      selectedPosition === position
+                        ? "bg-blue-100 text-blue-800 border-blue-400"
+                        : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-blue-50"
+                    }
+                  `}
+                  aria-pressed={selectedPosition === position}
+                >
+                  {position.replace("-", " ")}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          className="mt-4 px-8 py-3 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition text-lg"
+          onClick={handleShowToast}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Show Toast
+        </button>
+      </section>
+
+      <section className="w-full max-w-2xl mt-8">
+        <h2 className="text-xl font-semibold mb-4">Usage Example</h2>
+        <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
+          {`import { toast, ToastContainer } from "@/components/toast";
+
+toast.success("Success", "This is a success message", {
+  position: "top-right",
+  variant: "success",
+});
+
+<ToastContainer />`}
+        </pre>
+      </section>
+
+      <ToastContainer />
     </div>
   );
 }
